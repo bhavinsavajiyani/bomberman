@@ -17,8 +17,18 @@ public class SceneManagement : MonoBehaviour
         
     }
 
-    public void PlayGame()
+    public void ProceedToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void StartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
