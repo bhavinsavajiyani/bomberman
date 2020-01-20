@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Security;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,12 +8,17 @@ public class Player : MonoBehaviour
     private int _speed = 2;
     private Rigidbody _rigidBody1, _rigidBody2;
     private Animator _animator1, _animator2;
-    [SerializeField]
-    private int _playerNumber = 1;
+    public int _playerNumber = 1;
     public GameObject bombPrefab, clusterBombPrefab;
     [SerializeField]
     private PowerUp[] _powerUp;
-    public bool isClusterPowerUpActive;
+    public bool isClusterPowerUpActive, dead = false;
+    private static int _coinCount1, _coinCount2;
+    [HideInInspector]
+    public static int P1Score, P2Score;
+    public UIManager uIManager;
+    public AudioSource audioSource;
+    public static int highScore;
     
     private void Awake()
     {
@@ -21,6 +27,12 @@ public class Player : MonoBehaviour
 
         _rigidBody2 = GameObject.FindGameObjectWithTag("Player2").GetComponent<Rigidbody>();
         _animator2 = GameObject.FindGameObjectWithTag("Player2").GetComponent<Animator>();
+
+        audioSource = GameObject.Find("CollectiblesHolder").GetComponent<AudioSource>();
+        _coinCount1 = 0;
+        _coinCount2 = 0;
+
+        Time.timeScale = 1;
     }
     
     // Start is called before the first frame update
@@ -41,6 +53,9 @@ public class Player : MonoBehaviour
         {
             Player2Movement();
         }
+
+        CalculateHighScore();
+        DeclareWinner();
     }
 
     void Player1Movement()
@@ -135,7 +150,7 @@ public class Player : MonoBehaviour
            _animator2.SetBool("Run", true);
         }
 
-        if(Input.GetKeyDown(KeyCode.Return))
+        if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
             if(isClusterPowerUpActive == true)
             {
@@ -164,11 +179,86 @@ public class Player : MonoBehaviour
                 StartCoroutine(_powerUp[1].ActivateClusterPowerUp());
             }
             Invoke("DeactivateClusterPowerUp", 15.0f);
-        } 
+        }
+
+        if(other.tag == "Coin" && _playerNumber == 1)
+        {
+            _coinCount1++;
+            P1Score = _coinCount1;
+            uIManager.P1Score.text = "P1 SCORE: " + P1Score.ToString();
+            audioSource.PlayOneShot(audioSource.clip);
+            Destroy(other.gameObject, 0.1f);
+              
+        }
+
+        else if(other.tag == "Coin" && _playerNumber > 1)
+        {
+            _coinCount2++;
+            P2Score = _coinCount2;
+            uIManager.P2Score.text = "P2 SCORE: " + P2Score.ToString();
+            audioSource.PlayOneShot(audioSource.clip);
+            Destroy(other.gameObject, 0.1f);
+        }
     }
 
     void DeactivateClusterPowerUp()
     {
         isClusterPowerUpActive = false;
+    }
+
+    public void CalculateHighScore()
+    {
+        if(_coinCount1 > _coinCount2)
+        {
+            highScore = _coinCount1;
+            SetHighScore();
+            uIManager.highScoreText.text = "HIGH SCORE: P1 = " + highScore.ToString();
+        }
+
+        if(_coinCount1 < _coinCount2)
+        {
+            highScore = _coinCount2;
+            SetHighScore();
+            uIManager.highScoreText.text = "HIGH SCORE: P2 = " + highScore.ToString();
+        }
+
+        if(_coinCount1 == _coinCount2)
+        {
+            highScore = _coinCount2;
+            SetHighScore();
+            uIManager.highScoreText.text = "HIGH SCORE: P1 = P2 = " + highScore.ToString();
+        }
+    }
+
+    public void DeclareWinner()
+    {
+        if(uIManager.timer == 0 &&
+            GameObject.FindGameObjectWithTag("Player1").activeInHierarchy == true &&
+                GameObject.FindGameObjectWithTag("Player2").activeInHierarchy == true)
+        {
+            if(_coinCount1 > _coinCount2)
+            {
+                uIManager.winnerText.text = "WINNER: PLAYER 1";
+            }
+
+            if(_coinCount1 < _coinCount2)
+            {
+                uIManager.winnerText.text = "WINNER: PLAYER 2";
+            }
+
+            if(_coinCount1 == _coinCount2)
+            {
+                uIManager.winnerText.text = "DRAW";
+            }
+        }
+    }
+
+    public void SetHighScore()
+    {
+        if(highScore > PlayerPrefs.GetInt("HIGH SCORE: ", 0))
+        {
+            PlayerPrefs.SetInt("HIGH SCORE: ", highScore);
+        }
+        
     }
 }

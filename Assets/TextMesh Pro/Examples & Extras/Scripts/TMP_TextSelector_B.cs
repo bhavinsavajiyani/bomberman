@@ -34,6 +34,8 @@ namespace TMPro.Examples
 
         private TMP_MeshInfo[] m_cachedMeshInfoVertexData;
 
+        public TextMeshProUGUI TextPopup_TMPComponent { get => m_TextPopup_TMPComponent; set => m_TextPopup_TMPComponent = value; }
+
         void Awake()
         {
             m_TextMeshPro = gameObject.GetComponent<TextMeshProUGUI>();
@@ -50,7 +52,7 @@ namespace TMPro.Examples
             // Create pop-up text object which is used to show the link information.
             m_TextPopup_RectTransform = Instantiate(TextPopup_Prefab_01) as RectTransform;
             m_TextPopup_RectTransform.SetParent(m_Canvas.transform, false);
-            m_TextPopup_TMPComponent = m_TextPopup_RectTransform.GetComponentInChildren<TextMeshProUGUI>();
+            TextPopup_TMPComponent = m_TextPopup_RectTransform.GetComponentInChildren<TextMeshProUGUI>();
             m_TextPopup_RectTransform.gameObject.SetActive(false);
         }
 
@@ -266,12 +268,12 @@ namespace TMPro.Examples
                         case "id_01": // 100041637: // id_01
                             m_TextPopup_RectTransform.position = worldPointInRectangle;
                             m_TextPopup_RectTransform.gameObject.SetActive(true);
-                            m_TextPopup_TMPComponent.text = k_LinkText + " ID 01";
+                            TextPopup_TMPComponent.text = k_LinkText + " ID 01";
                             break;
                         case "id_02": // 100041638: // id_02
                             m_TextPopup_RectTransform.position = worldPointInRectangle;
                             m_TextPopup_RectTransform.gameObject.SetActive(true);
-                            m_TextPopup_TMPComponent.text = k_LinkText + " ID 02";
+                            TextPopup_TMPComponent.text = k_LinkText + " ID 02";
                             break;
                     }
                 }

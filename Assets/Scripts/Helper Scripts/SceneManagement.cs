@@ -24,6 +24,7 @@ public class SceneManagement : MonoBehaviour
 
     public void StartGame()
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 

@@ -9,6 +9,7 @@ TagManager:
   - Player1
   - RangePowerUp
   - ClusterPowerUp
+  - Coin
   layers:
   - Default
   - TransparentFX

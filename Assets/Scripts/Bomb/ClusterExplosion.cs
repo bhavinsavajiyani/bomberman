@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class ClusterExplosion : MonoBehaviour
 {
     public float power = 10.0f;
-    public float radius = 1.0f;
+    public float radius = 3.0f;
     public float upForce = 1.0f;
     public GameObject explosionPrefab, bombPrefab;
     
@@ -32,10 +32,19 @@ public class ClusterExplosion : MonoBehaviour
             if(rb != null)
             {
                 rb.AddExplosionForce(power, explosionPosition, radius, upForce, ForceMode.Impulse);
-                if(rb.tag == "Player1" || rb.tag == "Player2")
+                if(rb.tag == "Player1")
                 {
-                    // Make changes here. Add Game Over Panel!
-                    SceneManager.LoadScene(1);
+                    Time.timeScale = 0f;
+                    GameObject.Find("UIManager").GetComponent<UIManager>().winnerText.text = "WINNER: PLAYER 2";
+
+                    GameObject.Find("UIManager").GetComponent<UIManager>().gameOverCanvas.SetActive(true);
+                }
+
+                if(rb.tag == "Player2")
+                {
+                    Time.timeScale = 0f;
+                    GameObject.Find("UIManager").GetComponent<UIManager>().winnerText.text = "WINNER: PLAYER 1";
+                    GameObject.Find("UIManager").GetComponent<UIManager>().gameOverCanvas.SetActive(true);
                 }
             }
         }

@@ -10,6 +10,11 @@ public class Explosion : MonoBehaviour
     public float radius = 1.0f;
     public float upForce = 1.0f;
     public GameObject explosionPrefab, bombPrefab;
+
+    private void Awake()
+    {
+        Time.timeScale = 1;
+    }
     
     // Update is called once per frame
     void FixedUpdate()
@@ -28,11 +33,22 @@ public class Explosion : MonoBehaviour
             if(rb != null)
             {
                 rb.AddExplosionForce(power, explosionPosition, radius, upForce, ForceMode.Impulse);
-                if(rb.tag == "Player1" || rb.tag == "Player2")
+                if(rb.tag == "Player1")
                 {
-                    // Make changes here. Add Game Over Panel!
-                    SceneManager.LoadScene(1);
+                    Time.timeScale = 0f;
+                    GameObject.Find("UIManager").GetComponent<UIManager>().winnerText.text = "WINNER: PLAYER 2";
+
+                    GameObject.Find("UIManager").GetComponent<UIManager>().gameOverCanvas.SetActive(true);
                 }
+
+                if(rb.tag == "Player2")
+                {
+                    Time.timeScale = 0f;
+                    GameObject.Find("UIManager").GetComponent<UIManager>().winnerText.text = "WINNER: PLAYER 1";
+                    
+                    GameObject.Find("UIManager").GetComponent<UIManager>().gameOverCanvas.SetActive(true);
+                }
+                
                 rb.gameObject.SetActive(false);
             }
         }
