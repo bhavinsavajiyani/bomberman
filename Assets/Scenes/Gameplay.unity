@@ -10186,6 +10186,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DestructableWall (30)
       objectReference: {fileID: 0}
+    - target: {fileID: 4081808361658603262, guid: c354abe6eac7649278def29cbf85cf99,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3644169652722055501, guid: c354abe6eac7649278def29cbf85cf99,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -21238,6 +21243,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DestructableWall (20)
       objectReference: {fileID: 0}
+    - target: {fileID: 4081808361658603262, guid: c354abe6eac7649278def29cbf85cf99,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3644169652722055501, guid: c354abe6eac7649278def29cbf85cf99,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -22032,7 +22042,7 @@ PrefabInstance:
     - target: {fileID: 321384977066494895, guid: 0bb1f8e9f1aab401ea4e7482ab4667e2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.2
+      value: -6.26
       objectReference: {fileID: 0}
     - target: {fileID: 321384977066494895, guid: 0bb1f8e9f1aab401ea4e7482ab4667e2,
         type: 3}
@@ -22111,7 +22121,7 @@ PrefabInstance:
     - target: {fileID: 3436962298285999951, guid: dccabc137c4094409966e95f310a1f1d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.67
+      value: 2.48
       objectReference: {fileID: 0}
     - target: {fileID: 3436962298285999951, guid: dccabc137c4094409966e95f310a1f1d,
         type: 3}
